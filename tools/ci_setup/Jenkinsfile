@@ -1,0 +1,52 @@
+pipeline {
+    agent any
+    environment {
+       MAIL = bat (script: ''' git log -1 --pretty=format:%%ae ''',returnStdout: true).trim()
+   }
+
+    stages {
+        stage('Preliminary checks stage') {
+            steps {
+                bat '''
+                python ./tools/ci_setup/some_code_checking_script.py
+         '''
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat '''
+                mkdir build
+                cd build
+                cmake -G "MinGW Makefiles" ..
+                mingw32-make
+         '''
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat '''
+                cd build
+                cmake -G "MinGW Makefiles" .. -DUNIT_TESTS=ON
+                mingw32-make
+                ctest
+         '''
+            }
+        }
+    }
+
+    post
+        {
+            always
+            {
+                 bat '''
+                echo "post_commands"
+         '''
+            }
+            failure
+            {
+                echo "failed"
+            }
+        }
+}

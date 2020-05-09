@@ -1,0 +1,8 @@
+# ignore build directory
+build 
+# ignore bin directory
+bin
+# ignore .vscode directory
+# .vscode
+# ignore all .log files
+*.log
