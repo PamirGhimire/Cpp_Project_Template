@@ -17,6 +17,15 @@ target_link_libraries(
     ${PROJECT_NAME} 
     PRIVATE source_lib
 )
+
+if(WIN32)
+    add_executable (sample_gui_app_win32 apps/guiapp_windows.cpp)
+    target_link_libraries(
+        sample_gui_app_win32 
+        PRIVATE source_lib
+    )
+endif()
+
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
 if(BUILD_TOOLS)
