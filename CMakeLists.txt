@@ -17,6 +17,20 @@ target_link_libraries(
     ${PROJECT_NAME} 
     PRIVATE source_lib
 )
+
+if(WIN32)
+    set(wxWidgets_ROOT_DIR "C:/Users/ghimire/Desktop/wxWidgets/")
+    set(wxWidgets_LIB_DIR "C:/Users/ghimire/Desktop/wxWidgets/lib/gcc_dll")
+    set(wxWidgets_LIBRARIES "C:/Users/ghimire/Desktop/wxWidgets/lib")
+    set(wxWidgets_INCLUDE_DIRS "C:/Users/ghimire/Desktop/wxWidgets/include/wx")
+    set(wxWidgets_CONFIGURATION mswud)
+
+    find_package(wxWidgets COMPONENTS core base REQUIRED)
+    include(${wxWidgets_USE_FILE})
+    add_executable (sample_gui_app_win32 apps/guiapp_windows.cpp)
+    target_link_libraries(sample_gui_app_win32 ${wxWidgets_LIBRARIES})
+endif()
+
 set(EXECUTABLE_OUTPUT_PATH "bin")
 
 if(BUILD_TOOLS)
