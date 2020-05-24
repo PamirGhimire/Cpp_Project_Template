@@ -19,10 +19,10 @@ target_link_libraries(
 )
 
 if(WIN32)
-    set(wxWidgets_ROOT_DIR "C:/Users/ghimire/Desktop/wxWidgets/")
-    set(wxWidgets_LIB_DIR "C:/Users/ghimire/Desktop/wxWidgets/lib/gcc_dll")
-    set(wxWidgets_LIBRARIES "C:/Users/ghimire/Desktop/wxWidgets/lib")
-    set(wxWidgets_INCLUDE_DIRS "C:/Users/ghimire/Desktop/wxWidgets/include/wx")
+    set(wxWidgets_ROOT_DIR ${PROJECT_SOURCE_DIR}/../wxWidgets/)
+    set(wxWidgets_LIB_DIR ${PROJECT_SOURCE_DIR}/../wxWidgets/lib/gcc_dll)
+    set(wxWidgets_LIBRARIES ${PROJECT_SOURCE_DIR}/../wxWidgets/lib)
+    set(wxWidgets_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/../wxWidgets/include/wx)
     set(wxWidgets_CONFIGURATION mswud)
 
     find_package(wxWidgets COMPONENTS core base REQUIRED)
