@@ -1,7 +1,7 @@
-set(TEST_EXEC class1_tests)
+set(TEST_EXEC Widget_tests)
 
 add_executable(${TEST_EXEC} 
-    class1_tests.cpp
+    WidgetTests.cpp
 )
 
 target_include_directories(${TEST_EXEC}

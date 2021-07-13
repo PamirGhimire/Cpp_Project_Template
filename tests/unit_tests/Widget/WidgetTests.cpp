@@ -1,9 +1,9 @@
 #include <iostream>
 #include "gtest/gtest.h"
 
-#include "include/class1.h"
+#include "include/Widget.h"
 
-class Class1TestFixture : public ::testing::Test
+class WidgetTestFixture : public ::testing::Test
 {
   protected:
     virtual void SetUp()
@@ -19,11 +19,12 @@ class Class1TestFixture : public ::testing::Test
     }
 
     // Objects declared here can be used by all tests in the test case for Class1.
-    SomeNamespace::Class1 c1;
+    WidgetNamespace::Widget w;
 };
 
-TEST_F(Class1TestFixture, TestDoSomethingMethodInClass1)
+TEST_F(WidgetTestFixture, Test_WidgetStep)
 {
-    c1.DoSomething();
+    for (int i = 0; i < 5; ++i)
+        w.Step();
     EXPECT_EQ(1, 1);
 }

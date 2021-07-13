@@ -1,1 +1,1 @@
-add_subdirectory(class1)
+add_subdirectory(Widget)

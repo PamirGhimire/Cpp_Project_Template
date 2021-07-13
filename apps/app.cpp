@@ -1,12 +1,10 @@
 #include <iostream>
-#include "include/class1.h"
+#include "include/Widget.h"
 
 int main(int argc, char* argv[])
 {
     std::cout << "main method in app" << std::endl;
-
-    SomeNamespace::Class1 class1_object;
-    class1_object.DoSomething();
+    WidgetNamespace::Widget w;
 
     return EXIT_SUCCESS;
 }
