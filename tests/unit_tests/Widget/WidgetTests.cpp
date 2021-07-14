@@ -10,6 +10,8 @@ class WidgetTestFixture : public ::testing::Test
     {
         // Code here will be called immediately after the fixture constructor (right
         // before each test).
+        std::cout << "setup " << std::endl;
+        w.SetVal(testval_);
     }
 
     virtual void TearDown()
@@ -20,11 +22,12 @@ class WidgetTestFixture : public ::testing::Test
 
     // Objects declared here can be used by all tests in the test case for Class1.
     WidgetNamespace::Widget w;
+    int testval_{10};
 };
 
 TEST_F(WidgetTestFixture, Test_WidgetStep)
 {
-    for (int i = 0; i < 5; ++i)
-        w.Step();
-    EXPECT_EQ(1, 1);
+    std::cout << "test case" << std::endl;
+    w.Show();
+    EXPECT_EQ(w.GetVal(), testval_);
 }

@@ -9,6 +9,11 @@ class Widget
   public:
     Widget();
     void Step() const;
+    void SetVal(const int val);
+    int GetVal() const;
+    void Show() const;
+  private:
+    int val_{-1};
 };
 
 } // namespace WidgetNamespace
