@@ -1,0 +1,49 @@
+<diagram program="umletino" version="14.4.0-SNAPSHOT"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>310</x><y>60</y><w>190</w><h>130</h></coordinates><panel_attributes>/Animal/
+--
+-id: Long
+-name: String 
+--
++getId() : Long
++getName() : String
++Speak()
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>170</x><y>180</y><w>240</w><h>180</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>220;10;10;160</additional_attributes></element><element><id>UMLClass</id><coordinates><x>320</x><y>430</y><w>140</w><h>100</h></coordinates><panel_attributes>Cat
+--
+-owner : String
+--
++Speak()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>390</x><y>180</y><w>40</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;20;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>530</x><y>430</y><w>140</w><h>100</h></coordinates><panel_attributes>Lion
+--
+
+--
++Speak()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>180</y><w>210</w><h>270</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>10;10;190;250</additional_attributes></element><element><id>UMLClass</id><coordinates><x>730</x><y>160</y><w>140</w><h>100</h></coordinates><panel_attributes>Pride
+--
+-Members : vector&lt;Lion&gt;
+
+--
++Count()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>250</y><w>220</w><h>200</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+1..*  </panel_attributes><additional_attributes>200;10;10;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>570</x><y>650</y><w>110</w><h>80</h></coordinates><panel_attributes>Mane
+--
+-Color : String
+--
++GetColor()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>170</x><y>430</y><w>70</w><h>150</h></coordinates><panel_attributes>lt=-
+eats &gt;</panel_attributes><additional_attributes>10;10;10;130</additional_attributes></element><element><id>UMLClass</id><coordinates><x>110</x><y>340</y><w>140</w><h>100</h></coordinates><panel_attributes>Dog
+--
+-owner : String
+--
++Speak()
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>110</x><y>560</y><w>140</w><h>100</h></coordinates><panel_attributes>DogFood
+--
+-Brand : String
+--
++GetExpiryDate() : date
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>590</x><y>520</y><w>70</w><h>150</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;-
+1:1, 1</panel_attributes><additional_attributes>10;10;40;130</additional_attributes></element></diagram>

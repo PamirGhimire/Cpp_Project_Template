@@ -8,7 +8,7 @@
             "name": "gcc.exe build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}\\build\\path\\to\\application_you_want_to_debug.exe",
+            "program": "${workspaceFolder}\\build\\bin\\App.exe",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
