@@ -6,6 +6,9 @@
 #include <queue>
 using namespace std;
 
+// Implementation based on slides at:
+// https://www.cs.cmu.edu/~motionplanning/lecture/AppH-astar-dstar_howie.pdf
+
 struct Position{
   Position() = default;
   Position(int row, int col) : r(row), c(col){}
@@ -41,7 +44,7 @@ struct Comp
         const int f_p1 = p1.g + h_p1;
         const int f_p2 = p2.g + h_p2;
 
-        return f_p1 > f_p2;        
+        return f_p1 > f_p2; //lower f-score should have higher priority       
     }
 };
 
@@ -73,49 +76,52 @@ void readInput(Position& pcmanPos, Position& foodPos, Position& boardSize, std::
     
 }
 
-void updateParentOrAddToList(Position& pos,
-                            Position* parent,
-                            std::priority_queue<Position, std::vector<Position>, Comp>& open, 
-                            Position foodPos,
-                            const std::vector<std::string>& board)
+void addToOpenListOrUpdateParent(Position& childNode,
+                                std::priority_queue<Position, std::vector<Position>, Comp>& open, 
+                                Position* parent,
+                                Position foodPos,
+                                const std::vector<std::string>& board)
 {
     std::priority_queue<Position, std::vector<Position>, Comp> openCopy{foodPos};
-    
+    const char wallCharInBoard = '%';
+
     if(open.empty())
     {
-        pos.parent = parent;
-        if(board[pos.r][pos.c]!='%')
+        childNode.parent = parent;
+        if(board[childNode.r][childNode.c] != wallCharInBoard)
         {
-            pos.g = parent->g+1;
-            openCopy.push(pos);
+            childNode.g = parent->g+1;
+            openCopy.push(childNode);
         }
     }
     else
     {
-        bool posInOpenList = false;
+        bool childNodeInOpenList = false;
         while(!open.empty())
         {
-            Position inOpen = open.top();
+            Position nodeInOpenList = open.top();
             open.pop();
-            if(inOpen == pos)
+            if(nodeInOpenList == childNode)
             {
-                posInOpenList = true;
+                childNodeInOpenList = true;
+
                 //update parent conditionally
-                if(inOpen.g+1 > parent->g+1)
+                if(nodeInOpenList.g+1 > parent->g+1)
                 {
-                    inOpen.parent = parent;
-                    inOpen.g = parent->g + 1;
+                    nodeInOpenList.parent = parent;
+                    nodeInOpenList.g = parent->g + 1;
                 }
             }
-            openCopy.push(inOpen);
+            openCopy.push(nodeInOpenList);
         }
-        if(!posInOpenList)
+
+        if(!childNodeInOpenList)
         {
-            pos.parent = parent;
-            if(board[pos.r][pos.c]!='%')
+            childNode.parent = parent;
+            if(board[childNode.r][childNode.c]!=wallCharInBoard)
             {
-                pos.g = parent->g+1;
-                openCopy.push(pos);
+                childNode.g = parent->g+1;
+                openCopy.push(childNode);
             }
         }
     
@@ -123,7 +129,7 @@ void updateParentOrAddToList(Position& pos,
     open = openCopy;
 }
     
-bool nodeInList(Position& pos, std::vector<Position*>& closed)
+bool isNodeInList(Position& pos, std::vector<Position*>& closed)
 {
     for(Position* p : closed)
     {
@@ -143,39 +149,39 @@ Position* findFood(std::priority_queue<Position, std::vector<Position>, Comp>& o
     
     while(!open.empty())
     {
-        Position* popped = new Position(open.top());
+        Position* bestOpenNode = new Position(open.top());
         open.pop();
-        closed.push_back(popped);
+        closed.push_back(bestOpenNode);
         
-        if((*popped) == foodPos)
-            return popped;
+        if((*bestOpenNode) == foodPos)
+            return bestOpenNode;
         
-        if(popped->r-1 >= 0)//up
+        if(bestOpenNode->r-1 >= 0)//up
         {
-          Position up(popped->r-1, popped->c); 
-          if(!nodeInList(up, closed))
-              updateParentOrAddToList(up, popped, open, foodPos, board);
+          Position up(bestOpenNode->r-1, bestOpenNode->c); 
+          if(!isNodeInList(up, closed))
+              addToOpenListOrUpdateParent(up, open, bestOpenNode, foodPos, board);
         }
 
-        if(popped->c -1 >= 0)//left
+        if(bestOpenNode->c -1 >= 0)//left
         {
-          Position left(popped->r, popped->c-1);
-          if(!nodeInList(left, closed))
-              updateParentOrAddToList(left, popped, open, foodPos, board);
+          Position left(bestOpenNode->r, bestOpenNode->c-1);
+          if(!isNodeInList(left, closed))
+              addToOpenListOrUpdateParent(left, open, bestOpenNode, foodPos, board);
         }
 
-        if(popped->c + 1 < nCols)//right
+        if(bestOpenNode->c + 1 < nCols)//right
         {
-          Position right(popped->r, popped->c+1);
-          if(!nodeInList(right, closed))
-              updateParentOrAddToList(right, popped, open, foodPos, board);              
+          Position right(bestOpenNode->r, bestOpenNode->c+1);
+          if(!isNodeInList(right, closed))
+              addToOpenListOrUpdateParent(right, open, bestOpenNode, foodPos, board);              
         }
 
-        if(popped->r + 1 < nRows)//down
+        if(bestOpenNode->r + 1 < nRows)//down
         {
-          Position down(popped->r+1, popped->c);
-          if(!nodeInList(down, closed))
-              updateParentOrAddToList(down, popped, open, foodPos, board);              
+          Position down(bestOpenNode->r+1, bestOpenNode->c);
+          if(!isNodeInList(down, closed))
+              addToOpenListOrUpdateParent(down, open, bestOpenNode, foodPos, board);              
         }
     }
     
@@ -185,19 +191,21 @@ Position* findFood(std::priority_queue<Position, std::vector<Position>, Comp>& o
 
 
 int main(void) {
-    /* Enter your code here. Read input from STDIN. Print output to STDOUT */
+    /*Read input from STDIN. Print output to STDOUT */
     Position pcmanPos, foodPos, boardSize;
     std::vector<string> board;
     readInput(pcmanPos, foodPos, boardSize, board);
 
     
-    pcmanPos.g = 0; //cost of source is 0
+    pcmanPos.g = 0; //set traversed cost of starting position to zero
+
+    // positions should be prioritised in the open list according to <traversed cost> + <heuristic = distance from goal>
     std::priority_queue<Position, std::vector<Position>, Comp> open{foodPos};
     open.push(pcmanPos);
-   
     std::vector<Position*> closed;
     
     Position* result = findFood(open, closed, board, foodPos); 
+
     if(result == nullptr)
     {
         std::cout << "No path found!" << std::endl;
